@@ -1,4 +1,4 @@
-package net.elau.example.designpatternsexample.strategy
+package net.elau.example.designpatternsexamples.strategy
 
 fun main(args: Array<String>) {
 
