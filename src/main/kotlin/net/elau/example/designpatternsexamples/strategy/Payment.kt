@@ -1,15 +1,20 @@
 package net.elau.example.designpatternsexamples.strategy
 
+import java.math.BigDecimal
 import java.util.function.Consumer
 
-class Payment(private val method: Consumer<String>) {
+class Payment(private val method: Consumer<PaymentParams>) {
 
-    fun apply(cardId: String) = method.accept(cardId)
+    fun apply(paymentParams: PaymentParams) = method.accept(paymentParams)
 }
 
 class PaymentMethod {
 
-    fun debit(cardId: String) = println("Making purchase with debit-card: $cardId")
+    fun debit(paymentParams: PaymentParams) =
+        println("Making purchase with debit-card[${paymentParams.cardId}] and value[${paymentParams.value}]")
 
-    fun credit(cardId: String) = println("Making purchase with credit-card: $cardId")
+    fun credit(paymentParams: PaymentParams) =
+        println("Making purchase with credit-card[${paymentParams.cardId}] and value [${paymentParams.value}]")
 }
+
+data class PaymentParams(val cardId: String, val value: BigDecimal)
