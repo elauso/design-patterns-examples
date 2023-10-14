@@ -3,22 +3,22 @@ package net.elau.example.designpatternsexamples.chain.validation
 import java.util.function.Consumer
 import java.util.function.Predicate
 
-class ProductDeliveryAvailable : Consumer<ValidationParams>, Predicate<ValidationParams> {
+class ProductDeliveryAvailable : Predicate<ValidationParams>, Consumer<ValidationParams> {
+
+    override fun test(validationParams: ValidationParams): Boolean {
+        println("Validating whether the product can be delivered")
+
+        val address = validationParams.customer.address
+        val productId = validationParams.order.productId
+
+        return checkDeliveryNotAvailable(productId, address)
+    }
 
     override fun accept(validationParams: ValidationParams) {
         val exception =
             RuntimeException("The product[productId=${validationParams.order.productId}] can not be delivered to address[${validationParams.customer.address}]")
         println("Validation fail: ${exception.message}")
         throw exception
-    }
-
-    override fun test(validationParams: ValidationParams): Boolean {
-        println("c=ProductDeliveryAvailable, m=test()")
-
-        val address = validationParams.customer.address
-        val productId = validationParams.order.productId
-
-        return checkDeliveryNotAvailable(productId, address)
     }
 
     private fun checkDeliveryNotAvailable(productId: String, address: String): Boolean {
