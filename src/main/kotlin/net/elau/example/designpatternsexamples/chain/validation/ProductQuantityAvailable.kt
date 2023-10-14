@@ -1,4 +1,4 @@
-package net.elau.example.designpatternsexamples.chain
+package net.elau.example.designpatternsexamples.chain.validation
 
 import java.util.function.Consumer
 import java.util.function.Predicate
@@ -6,7 +6,10 @@ import java.util.function.Predicate
 class ProductQuantityAvailable : Consumer<ValidationParams>, Predicate<ValidationParams> {
 
     override fun accept(validationParams: ValidationParams) {
-        throw RuntimeException("There is not enough stock for the product[productId=${validationParams.productOrder.productId}]")
+        val exception =
+            RuntimeException("There is not enough stock for the product[productId=${validationParams.order.productId}]")
+        println("Validation fail: ${exception.message}")
+        throw exception
     }
 
     override fun test(validationParams: ValidationParams): Boolean {
@@ -14,7 +17,7 @@ class ProductQuantityAvailable : Consumer<ValidationParams>, Predicate<Validatio
 
         val stockId = getStockByAddress(validationParams.customer.address)
 
-        val productOrder = validationParams.productOrder
+        val productOrder = validationParams.order
         return checkStockIsNotAvailable(productOrder.productId, productOrder.quantity, stockId)
     }
 
