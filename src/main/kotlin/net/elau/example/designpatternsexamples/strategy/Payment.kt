@@ -14,7 +14,7 @@ class PaymentMethod {
         println("Making purchase with debit-card[${paymentParams.cardId}] and value[${paymentParams.value}]")
 
     fun credit(paymentParams: PaymentParams) =
-        println("Making purchase with credit-card[${paymentParams.cardId}] and value [${paymentParams.value}]")
+        println("Making purchase with credit-card[${paymentParams.cardId}] and value[${paymentParams.value}]")
 }
 
 data class PaymentParams(val cardId: String, val value: BigDecimal)

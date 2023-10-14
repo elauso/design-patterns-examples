@@ -1,6 +1,5 @@
 package net.elau.example.designpatternsexamples.singleton
 
-
 fun main(args: Array<String>) {
 
     val config1 = Configuration.INSTANCE
