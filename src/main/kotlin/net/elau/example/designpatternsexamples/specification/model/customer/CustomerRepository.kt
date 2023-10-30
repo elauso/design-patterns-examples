@@ -14,7 +14,7 @@ class CustomerRepository {
         repository.values.filter { criteria.test(it) }
 
     fun create(customer: Customer): UUID {
-        if (validateIllegalAge().and(validateNotAllowedRegion()).test(customer)) {
+        if (validateIllegalAge().or(validateNotAllowedRegion()).test(customer)) {
             throw RuntimeException("Create customer[$customer] is not allowed.")
         }
         return randomUUID().apply { repository[this] = customer.copy(id = this) }
