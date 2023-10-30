@@ -20,9 +20,9 @@ private fun initRepo(): CustomerRepository {
 
     val repository = CustomerRepository()
 
-    repository.create(Customer("Anna", 20, Region.NORTH))
-    repository.create(Customer("John", 34, Region.EAST))
-    repository.create(Customer("Thomas", 41, Region.SOUTH))
+    repository.create(Customer(name = "Anna", age = 20, region = Region.NORTH))
+    repository.create(Customer(name = "John", age = 34, region = Region.EAST))
+    repository.create(Customer(name = "Thomas", age = 41, region = Region.SOUTH))
 
     return repository
 }
