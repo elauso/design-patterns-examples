@@ -8,15 +8,25 @@ class CustomerRepository {
 
     private val repository = hashMapOf<UUID, Customer>()
 
-    fun create(customer: Customer): UUID =
-        randomUUID().apply { repository[this] = customer.copy(id = this) }
-
-    fun delete(id: UUID) = repository.remove(id)
-
     fun findById(id: UUID) = repository[id]
 
     fun find(criteria: Predicate<Customer>) =
         repository.values.filter { criteria.test(it) }
+
+    fun create(customer: Customer): UUID {
+        if (validateIllegalAge().and(validateNotAllowedRegion()).test(customer)) {
+            throw RuntimeException("Crete customer[$customer] is not allowed.")
+        }
+        return randomUUID().apply { repository[this] = customer.copy(id = this) }
+    }
+
+    fun delete(id: UUID) = repository.remove(id)
+
+    private fun validateIllegalAge(): Predicate<Customer> =
+        Predicate { customer -> customer.age < 18 }
+
+    private fun validateNotAllowedRegion(): Predicate<Customer> =
+        Predicate { customer -> customer.region == Region.WEST }
 }
 
 data class Customer(val id: UUID? = null, val name: String, val age: Int, val region: Region)
